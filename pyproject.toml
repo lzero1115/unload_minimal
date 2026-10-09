@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools==82.0.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unload-minimal"
+version = "0.1.0"
+description = "Interactive box unloading with MuJoCo, cuRobo, and Polyscope"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+# Pinned project runtime and asset-loading dependencies.
+dependencies = [
+    "numpy==2.4.3",
+    "scipy==1.17.1",
+    "mujoco==3.9.0",
+    "polyscope==2.6.1",
+    "torch==2.9.0+cu126",
+    "pytorch-kinematics==0.10.0",
+    "trimesh==4.12.2",
+    "pycollada==0.9.3",
+    "PyYAML==6.0.3",
+]
+
+[project.optional-dependencies]
+# Both interactive removal modes require cuRobo. The base dependencies also
+# support scene generation and viewing without installing the planner.
+# Use the IKSolver/MotionGen API from the pinned cuRobo source revision.
+# Build against the installed PyTorch with --no-build-isolation; see README.md.
+planning = [
+    "nvidia-curobo @ git+https://github.com/NVlabs/curobo.git@d64c4b005459db10c5dd867d8b30a87d5bda9bdb",
+    # Explicit version constraint for cuRobo's Warp dependency.
+    "warp-lang==1.12.1",
+]
+# Remaining cuRobo dependencies are declared by cuRobo itself.
+
+[tool.setuptools]
+# Dependency bootstrap only. Run the scripts from this complete checkout;
+# robot assets and the current script import layout are not packaged as a wheel.
+packages = []
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu126" }
+
+[tool.unload-minimal.environment]
+# Environment settings for the setup instructions; package managers do not
+# create a Conda environment from this custom table.
+name = "unload_minimal"
+platform = "linux-64"
+python = "3.11.15"
+torch-cuda = "12.6"
+curobo-api = "IKSolver / MotionGen (v1-style)"
+curobo-source-tag = "v0.7.8"
+curobo-source-revision = "d64c4b005459db10c5dd867d8b30a87d5bda9bdb"
