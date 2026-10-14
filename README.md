@@ -23,6 +23,14 @@ is required.
 - **Timeline Replay**: Scrub recorded frames, step backward/forward, or play the unloading motion without changing the live scene.
 - **Blender Export**: Export robot and box animation, materials, and metrics for MP4 or image-sequence rendering.
 
+## TODO
+
+- [x] Implement box pile scene generation based on "Decision-making algorithms for safe robotic disassembling of randomly piled objects".
+- [x] Build an unloading environment and workflow with MuJoCo physics simulation and integrated cuRobo motion planning.
+- [x] Provide an interactive unloading viewer with task phase visualization and controls.
+- [ ] Complete traditional heuristic planners and beam search for unloading sequences.
+- [ ] Complete the reinforcement learning training code for unloading policies.
+
 ## Installation
 
 Requires Linux, Python 3.11, and CUDA-enabled PyTorch.
